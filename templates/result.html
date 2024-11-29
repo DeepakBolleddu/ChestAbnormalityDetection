@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url("{{ url_for('static', filename='background_image.webp') }}");
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        h1 {
+            color: white;
+        }
+
+        .result-container {
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            color: white;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .predictions {
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .upload-btn {
+            padding: 10px 20px;
+            background-color: green;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="result-container">
+        <h1>Prediction Results</h1>
+        <img src="{{ url_for('static', filename='result/input_image.jpg') }}" alt="Prediction Image">
+        <div class="predictions">
+            {% if predictions %}
+                {% for prediction in predictions %}
+                    <p><strong>{{ prediction.label }}</strong>: {{ prediction.confidence|round(2) }}%</p>
+                {% endfor %}
+            {% else %}
+                <p>No predictions made.</p>
+            {% endif %}
+        </div>
+        <a href="{{ url_for('index') }}"><button class="upload-btn">Upload Another Image</button></a>
+    </div>
+</body>
+</html>

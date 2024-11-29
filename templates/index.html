@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chest X-Ray Abnormality Detection</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-image: url("{{ url_for('static', filename='background_image.webp') }}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #f4f4f4;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 48px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 50px;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            font-weight: 700;
+            position: relative;
+            animation: glow 1.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px #fff, 0 0 20px #0ff, 0 0 30px #0ff, 0 0 40px #0ff;
+            }
+            to {
+                text-shadow: 0 0 20px #fff, 0 0 30px #0ff, 0 0 40px #0ff, 0 0 50px #0ff;
+            }
+        }
+
+        form {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 600px;
+            animation: fadeInUp 0.6s ease-in-out;
+        }
+
+        input[type="file"] {
+            padding: 10px;
+            background-color: #fff;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            width: 80%;
+            margin: 0 auto;
+            color: #333;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        input[type="file"]:hover {
+            transform: scale(1.05);
+        }
+
+        button {
+            padding: 12px 25px;
+            background-color: #28a745;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            width: 60%;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #218838;
+            transform: scale(1.05);
+        }
+
+        #output {
+            margin-top: 30px;
+            font-size: 18px;
+            color: white;
+        }
+
+        .prediction {
+            font-size: 22px;
+            font-weight: 500;
+            color: #0ff;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 20px;
+            width: 80%;
+            margin: 20px auto;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border: 3px solid #0ff;
+            border-radius: 12px;
+            box-shadow: 0px 10px 30px rgba(0, 255, 255, 0.4);
+            margin-top: 30px;
+            transition: transform 0.3s ease;
+        }
+
+        img:hover {
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Upload Chest X-Ray Image for Abnormality Detection</h1>
+    <form action="/predict" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept="image/*" required>
+        <br>
+        <button type="submit">Upload</button>
+    </form>
+    
+    {% if output_image %}
+        <h2 style="color:#ffffff; margin-top:40px;">Output Image:</h2>
+        <img src="{{ output_image }}" alt="Prediction Image">
+    {% endif %}
+
+    {% if predictions %}
+        <div id="output">
+            {% for prediction in predictions %}
+                <div class="prediction">
+                    <strong>{{ prediction.label }}</strong> <br>
+                    Confidence: {{ prediction.confidence | round(2) }}%
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</body>
+</html>
