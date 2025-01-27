@@ -12,7 +12,7 @@ app = Flask(__name__)
 if os.name == 'nt':  # Fix for Windows compatibility
     pathlib.PosixPath = pathlib.WindowsPath
 
-YOLO_PATH = r'C:\Users\Deepak\OneDrive\Desktop\UOW\Projects\ChestAbnormality\yolov5-master'
+YOLO_PATH = './yolov5-master'
 sys.path.insert(0, YOLO_PATH)
 
 # Import detect from YOLOv5
