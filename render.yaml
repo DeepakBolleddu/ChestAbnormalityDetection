@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: YourServiceName
+    env: python
+    pythonVersion: 3.10 # Specify the Python version here
+    buildCommand: pip install -r requirements.txt
+    startCommand: python app.py # Adjust to your app's entry point
