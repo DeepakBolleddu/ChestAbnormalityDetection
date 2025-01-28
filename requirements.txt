@@ -2,3 +2,4 @@ Flask==3.0.3
 pandas==2.2.2
 requests==2.32.3
 gunicorn==21.2.0  # or the latest version
+torch==2.1.0
